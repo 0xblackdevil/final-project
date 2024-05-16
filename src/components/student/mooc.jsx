@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import ipfsClient from "../../utils/ipfs_conf";
 import { useEffect, useState } from "react";
 import { useAccount, useWatchContractEvent, useWriteContract } from "wagmi";
@@ -30,7 +31,7 @@ function MoocComponent() {
     const account = useAccount();
 
     const fatchPendingDocuments = async () => {
-        const response = await axios.post("https://api.studio.thegraph.com/query/52646/educational-records/version/latest", {
+        const response = await axios.post("https://api.studio.thegraph.com/query/52646/educational-records/v0.0.5", {
             query: `query fatchPendingDocs {
                 certificateUpdateds(where: {studentId: "${account.address}"}) {
                   id

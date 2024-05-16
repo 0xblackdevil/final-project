@@ -1,0 +1,242 @@
+[
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_userId", "type": "address" },
+      {
+        "internalType": "enum EducationalRecords.Role",
+        "name": "_role",
+        "type": "uint8"
+      }
+    ],
+    "name": "addUser",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "certificateId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "studentId",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "courseTitle",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "ipfsHash",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum EducationalRecords.Status",
+        "name": "status",
+        "type": "uint8"
+      }
+    ],
+    "name": "CertificateUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "documentId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "studentId",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "issuerId",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "documentHash",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum EducationalRecords.Status",
+        "name": "status",
+        "type": "uint8"
+      }
+    ],
+    "name": "DocumentUpdated",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_documentId", "type": "uint256" },
+      { "internalType": "string", "name": "_documentHash", "type": "string" }
+    ],
+    "name": "provideDocument",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_title", "type": "string" }
+    ],
+    "name": "requestDocument",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "userId",
+        "type": "address"
+      }
+    ],
+    "name": "SuperOwner",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_courseTitle", "type": "string" },
+      {
+        "internalType": "uint256",
+        "name": "_certificateId",
+        "type": "uint256"
+      },
+      { "internalType": "string", "name": "_ipfsHash", "type": "string" }
+    ],
+    "name": "uploadCertificate",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "userId",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "enum EducationalRecords.Role",
+        "name": "role",
+        "type": "uint8"
+      }
+    ],
+    "name": "UserAdded",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_certificateId", "type": "uint256" }
+    ],
+    "name": "verifyCertificate",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_certificateId", "type": "uint256" }
+    ],
+    "name": "getCertificateDetails",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "string", "name": "courseTitle", "type": "string" },
+          { "internalType": "address", "name": "studentId", "type": "address" },
+          { "internalType": "string", "name": "ipfsHash", "type": "string" },
+          {
+            "internalType": "enum EducationalRecords.Status",
+            "name": "status",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct EducationalRecords.Certificate",
+        "name": "_certificate",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_documentId", "type": "uint256" }
+    ],
+    "name": "getDocumentDetails",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "string", "name": "title", "type": "string" },
+          { "internalType": "address", "name": "studentId", "type": "address" },
+          { "internalType": "address", "name": "issuerId", "type": "address" },
+          {
+            "internalType": "string",
+            "name": "documentHash",
+            "type": "string"
+          },
+          {
+            "internalType": "enum EducationalRecords.Status",
+            "name": "status",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct EducationalRecords.Document",
+        "name": "_document",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_userId", "type": "address" }
+    ],
+    "name": "getUserRole",
+    "outputs": [
+      {
+        "internalType": "enum EducationalRecords.Role",
+        "name": "_role",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

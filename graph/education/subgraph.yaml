@@ -1,0 +1,35 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Contract
+    network: sepolia
+    source:
+      address: "0xBeFF26478E38aa8aa98E1441133a568Ce9CEfD4C"
+      abi: Contract
+      startBlock: 5914525
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - CertificateUpdated
+        - DocumentUpdated
+        - SuperOwner
+        - UserAdded
+      abis:
+        - name: Contract
+          file: ./abis/Contract.json
+      eventHandlers:
+        - event: CertificateUpdated(indexed uint256,indexed address,string,string,uint8)
+          handler: handleCertificateUpdated
+        - event: DocumentUpdated(indexed uint256,indexed address,indexed address,string,string,uint8)
+          handler: handleDocumentUpdated
+        - event: SuperOwner(indexed address)
+          handler: handleSuperOwner
+        - event: UserAdded(indexed address,indexed uint8)
+          handler: handleUserAdded
+      file: ./src/contract.ts

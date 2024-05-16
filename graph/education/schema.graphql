@@ -1,0 +1,41 @@
+type CertificateUpdated @entity(immutable: true) {
+  id: Bytes!
+  certificateId: BigInt! # uint256
+  studentId: Bytes! # address
+  courseTitle: String! # string
+  ipfsHash: String! # string
+  status: Int! # uint8
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type DocumentUpdated @entity(immutable: true) {
+  id: Bytes!
+  documentId: BigInt! # uint256
+  studentId: Bytes! # address
+  issuerId: Bytes! # address
+  documentHash: String! # string
+  title: String! # string
+  status: Int! # uint8
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type SuperOwner @entity(immutable: true) {
+  id: Bytes!
+  userId: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type UserAdded @entity(immutable: true) {
+  id: Bytes!
+  userId: Bytes! # address
+  role: Int! # uint8
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

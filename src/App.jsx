@@ -28,7 +28,7 @@ function App() {
   })
 
   const fatchUserState = async () => {
-    const response = await axios.post("https://api.studio.thegraph.com/query/52646/educational-records/version/latest", {
+    const response = await axios.post("https://api.studio.thegraph.com/query/52646/educational-records/v0.0.5", {
       query: `query fatchPendingDocs {
         userAddeds(where: {userId: "${account.address}"}) {
           role
@@ -36,8 +36,6 @@ function App() {
         }
       }`,
     });
-
-    console.log(response.data.data.userAddeds[0].role);
 
     setUserRoleFromChain(response.data.data.userAddeds);
   }
@@ -49,8 +47,8 @@ function App() {
   useAccountEffect({
     async onConnect() {
       userRole.length === 0 && dispatch(setUserRole(null));
-      userRole[0].role === 1 && dispatch(setUserRole("student"));
-      userRole[0].role === 2 && dispatch(setUserRole("admin"));
+      userRole.length > 0 && userRole[0].role === 1 && dispatch(setUserRole("student"));
+      userRole.length > 0 && userRole[0].role === 2 && dispatch(setUserRole("admin"));
     },
     onDisconnect() {
       dispatch(setUserRole(null))

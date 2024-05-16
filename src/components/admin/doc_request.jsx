@@ -26,7 +26,7 @@ function DocsIssue() {
     })
 
     const fatchPendingDocuments = async () => {
-        const response = await axios.post("https://api.studio.thegraph.com/query/52646/educational-records/version/latest", {
+        const response = await axios.post("https://api.studio.thegraph.com/query/52646/educational-records/v0.0.5", {
             query: `query fatchPendingDocs {
                 documentUpdateds {
                   status
@@ -38,7 +38,7 @@ function DocsIssue() {
         });
         setListOfRequest(response.data.data.documentUpdateds);
 
-        const removedIndex = await axios.post("https://api.studio.thegraph.com/query/52646/educational-records/version/latest", {
+        const removedIndex = await axios.post("https://api.studio.thegraph.com/query/52646/educational-records/v0.0.5", {
             query: `query fatchPendingDocs {
                 documentUpdateds(where: {status: 1}) {
                   documentId

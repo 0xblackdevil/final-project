@@ -12,7 +12,7 @@ function Navbar() {
                 <li className="cursor-pointer">Home</li>
                 <li className="cursor-pointer">Feature</li>
                 <li className="cursor-pointer">FAQs</li>
-                <li className="cursor-pointer">Contact</li>
+                {/* <li className="cursor-pointer">Contact</li> */}
             </ul>}
             <ConnectButton />
         </nav>
