@@ -13,7 +13,6 @@ The `EducationalRecords` smart contract is designed to manage educational docume
 5. [Public Functions](#public-functions)
 6. [View/Pure Functions](#viewpure-functions)
 7. [Roles and Permissions](#roles-and-permissions)
-8. [Example Usage](#example-usage)
 
 ## Contract Structure
 
@@ -32,7 +31,7 @@ The contract is divided into several key components:
 
 ### Enums
 
-```solidity
+```js
 enum Role {
     None,
     Student,
@@ -47,7 +46,7 @@ enum Status {
 
 ### Structs
 
-```solidity
+```js
 struct Document {
     string title;
     address studentId;
@@ -66,7 +65,7 @@ struct Certificate {
 
 ### State Variables
 
-```solidity
+```js
 address immutable i_superAdmin;
 
 mapping(address => Role) private users;
@@ -81,12 +80,7 @@ mapping(uint256 => Certificate) private certificates;
 
 ## Modifiers
 
-```solidity
-modifier onlySuperAdmin() {
-    require(msg.sender == i_superAdmin, "Access restricted to super admin!");
-    _;
-}
-
+```js
 modifier onlyAdmin(Role _role) {
     require(_role == Role.Admin, "Access restricted to admins!");
     _;
@@ -98,18 +92,18 @@ modifier onlyStudent(Role _role) {
 }
 ```
 
-- `onlySuperAdmin`: Restricts function access to the super admin.
 - `onlyAdmin`: Restricts function access to admins.
 - `onlyStudent`: Restricts function access to students.
 
 ## Events
 
-```solidity
+```js
 event DocumentUpdated(uint256 indexed documentId, address indexed studentId, string title, Status status);
 event CertificateUpdated(
     uint256 indexed certificateId, address indexed studentId, string courseTitle, string ipfsHash, Status status
 );
 event UserAdded(address indexed userId, Role indexed role);
+event SuperOwner(address indexed userId);
 ```
 
 - `DocumentUpdated`: Emitted when a document is updated.
@@ -120,28 +114,20 @@ event UserAdded(address indexed userId, Role indexed role);
 
 ### Constructor
 
-```solidity
+```js
 constructor() {
     i_superAdmin = msg.sender;
+    users[msg.sender] = Role.Admin;
+    emit SuperOwner(msg.sender);
 }
 ```
 
 - Sets the deploying address as the super admin.
 
-### Super Admin Functions
-
-```solidity
-function addUser(address _userId, Role _role) public onlySuperAdmin {
-    users[_userId] = _role;
-    emit UserAdded(_userId, _role);
-}
-```
-
-- `addUser`: Adds a new user with a specified role.
 
 ### Student Functions
 
-```solidity
+```js
 function requestDocument(string memory _title) public onlyStudent(users[msg.sender]) {
     Document memory _document;
     _document.title = _title;
@@ -168,14 +154,19 @@ function uploadCertificate(string memory _courseTitle, uint256 _certificateId, s
 
 ### Admin Functions
 
-```solidity
+```js
+function addUser(address _userId, Role _role) public onlySuperAdmin {
+    users[_userId] = _role;
+    emit UserAdded(_userId, _role);
+}
+
 function provideDocument(uint256 _documentId, string memory _documentHash) public onlyAdmin(users[msg.sender]) {
     documents[_documentId].issuerId = msg.sender;
     documents[_documentId].documentHash = _documentHash;
     documents[_documentId].status = Status.Approved;
 
     emit DocumentUpdated(
-        block.timestamp, documents[_documentId].studentId, documents[_documentId].title, Status.Approved
+        _documentId, documents[_documentId].studentId, documents[_documentId].title, Status.Approved
     );
 }
 
@@ -194,10 +185,11 @@ function verifyCertificate(uint256 _certificateId) public onlyAdmin(users[msg.se
 
 - `provideDocument`: Allows an admin to approve and provide a document.
 - `verifyCertificate`: Allows an admin to verify a certificate.
+- `addUser`: Adds a new user with a specified role.
 
 ## View/Pure Functions
 
-```solidity
+```js
 function getDocumentDetails(uint256 _documentId) public view returns (Document memory _document) {
     _document = documents[_documentId];
 }
@@ -217,59 +209,6 @@ function getUserRole(address _userId) public view returns (Role _role) {
 
 ## Roles and Permissions
 
-- **Super Admin**: Can add users with specific roles.
-- **Admin**: Can approve documents and verify certificates.
+- **Super Admin**: Deployer of the contract.
+- **Admin**: Can add users, approve documents and verify certificates.
 - **Student**: Can request documents and upload certificates.
-
-## Example Usage
-
-### Deploying the Contract
-
-1. Deploy the contract with the deploying address as the super admin.
-
-### Adding Users
-
-```solidity
-// As super admin
-addUser(0x123..., Role.Student);
-addUser(0x456..., Role.Admin);
-```
-
-### Requesting a Document (Student)
-
-```solidity
-// As student
-requestDocument("Transcript of Records");
-```
-
-### Providing a Document (Admin)
-
-```solidity
-// As admin
-provideDocument(1625142600, "Qm..."); // Example documentId and documentHash
-```
-
-### Uploading a Certificate (Student)
-
-```solidity
-// As student
-uploadCertificate("Blockchain Course", 1, "Qm...");
-```
-
-### Verifying a Certificate (Admin)
-
-```solidity
-// As admin
-verifyCertificate(1);
-```
-
-### Retrieving Details
-
-```solidity
-// Anyone
-getDocumentDetails(1625142600);
-getCertificateDetails(1);
-getUserRole(0x123...);
-```
-
-This documentation provides an overview of the `EducationalRecords` contract, detailing its structure, state variables, modifiers, events, functions, roles, and example usage. This should help users understand how to interact with and utilize the contract effectively.
