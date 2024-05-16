@@ -31,7 +31,7 @@ function MoocResult() {
     }, [])
 
     const fatchPendingDocuments = async () => {
-        const response = await axios.post("https://api.studio.thegraph.com/query/52646/educational-records/v0.0.5", {
+        const response = await axios.post("https://api.studio.thegraph.com/query/75466/education/v0.0.1", {
             query: `query fatchPendingDocs {
                     certificateUpdateds {
                       id
@@ -48,7 +48,7 @@ function MoocResult() {
 
         setListOfRequest(response.data.data.certificateUpdateds);
 
-        const approvedCertifacts = await axios.post("https://api.studio.thegraph.com/query/52646/educational-records/v0.0.5", {
+        const approvedCertifacts = await axios.post("https://api.studio.thegraph.com/query/75466/education/v0.0.1", {
             query: `query fatchPendingDocs {
                 certificateUpdateds(where: {status: 1}) {
                   certificateId

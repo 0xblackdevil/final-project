@@ -24,7 +24,7 @@ function DocsComponent() {
     const account = useAccount();
 
     const fatchPendingDocuments = async () => {
-        const response = await axios.post("https://api.studio.thegraph.com/query/52646/educational-records/v0.0.5", {
+        const response = await axios.post("https://api.studio.thegraph.com/query/75466/education/v0.0.1", {
             query: `query getStudentDocuments {
                 documentUpdateds(where: {studentId: "${account.address}", status: 1}) {
                     status
@@ -33,6 +33,7 @@ function DocsComponent() {
                     documentId
                     issuerId
                     id
+                    documentHash
                 }
               }`,
         });
@@ -63,7 +64,9 @@ function DocsComponent() {
                         <td>{docData.issuerId}</td>
                         <td>{docData.status === 1 && "Approved"}</td>
                         <td className="text-center text-blue-800">
-                            <FontAwesomeIcon icon={faLink} />
+                            <a href={`ipfs://${docData.documentHash}`}>
+                                <FontAwesomeIcon icon={faLink} />
+                            </a>
                         </td>
                     </tr>)}
                 </tbody>
